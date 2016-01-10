@@ -1,5 +1,5 @@
 # Union
 敵を仲間にしていく感じのシューティングゲーム  
 
-[google]: https://github.com/yashihei "@yashihei"
-のコードを参考にしながら作成します
+[@yashihei](https://github.com/yashihei)
+さんのコードを参考にしながら作成します
