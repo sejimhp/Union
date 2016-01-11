@@ -36,6 +36,7 @@ public:
 
 	Vec2 getPos() const { return pos; }
 	int getHp() const { return hp; }
+	void checkBulletHit(Game* game);
 	std::shared_ptr<ShotManager> getShotManager() const { return shotManager; }
 private:
 	State state;

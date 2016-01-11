@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include "Game.h"
+#include "Bullet.h"
 
 Shot::Shot(Vec2 pos, double rad) :
 pos(pos), rad(rad), size(5.0){}
@@ -51,6 +52,7 @@ void Player::update(Game* game){
 			shotManager->add(shot);
 		}
 	}
+	checkBulletHit(game);
 	shotManager->update(game);
 	fireCount++;
 }
@@ -58,4 +60,15 @@ void Player::update(Game* game){
 void Player::draw(Game* game){
 	shotManager->draw(game);
 	Triangle(pos, 30.0).draw(Color(150, 150, 255, 122)).drawFrame();
+	Circle(pos, 2).draw(Color(150, 0, 0, 122));
+}
+
+void Player::checkBulletHit(Game* game){
+	auto bulletManager = game->getBulletManager();
+	for (auto& bullet : *bulletManager){
+		if (Circle(pos, 2).intersects(Circle(bullet->getPos(), bullet->getSize()))){
+			hp--;
+			bullet->kill();
+		}
+	}
 }
