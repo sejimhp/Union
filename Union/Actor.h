@@ -39,6 +39,9 @@ public:
 			actor->draw(game);
 		}
 	}
+
+	typename std::list<std::shared_ptr<Type>>::const_iterator begin(){ return actors.begin(); }
+	typename std::list<std::shared_ptr<Type>>::const_iterator end(){ return actors.end(); }
 private:
 	std::list<std::shared_ptr<Type>> actors;
 };

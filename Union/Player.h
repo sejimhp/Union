@@ -12,6 +12,7 @@ public:
 	void draw(Game* game) override;
 
 	Vec2 getPos() const { return pos; }
+	double getSize() const{ return size; }
 	int getStrong() const { return strong; }
 private:
 	Vec2 pos, vec;
