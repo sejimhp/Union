@@ -7,11 +7,13 @@
 const Size Game::stageSize = Size(1366, 768);
 
 Game::Game(){
+	state = State::TITLE;
 	player = std::make_shared<Player>();
 	enemyManager = std::make_shared<EnemyManager>();
 	bulletManager = std::make_shared<BulletManager>();
 
 	FontAsset::Register(L"log", 10, L"Orbitron");
+	FontAsset::Register(L"title", 50, L"Orbitron");
 	TextureAsset::Register(L"back", L"dat/cloud.jpg");
 
 	frameCount = 3000;
@@ -20,10 +22,21 @@ Game::Game(){
 
 void Game::update(){
 	frameCount = ++frameCount % 4096;
-	
-	player->update(this);
-	enemyManager->update(this);
-	bulletManager->update(this);
+
+	switch (state){
+	case State::TITLE:
+		if (Input::KeySpace.clicked) gameStart();
+		enemyManager->update(this);
+		bulletManager->update(this);
+		break;
+	case State::PLAY:
+		player->update(this);
+		enemyManager->update(this);
+		bulletManager->update(this);
+		break;
+	case State::GAMEOVER:
+		break;
+	};
 
 	creatActors();
 }
@@ -31,9 +44,23 @@ void Game::update(){
 void Game::draw(){
 	drawBack();
 
-	player->draw(this);
-	enemyManager->draw(this);
-	bulletManager->draw(this);
+	switch (state){
+	case State::TITLE:
+		enemyManager->draw(this);
+		bulletManager->draw(this);
+		FontAsset(L"title").draw(L"Union", Vec2(200, 300), Palette::Lightgreen);
+		break;
+	case State::PLAY:
+		player->draw(this);
+		enemyManager->draw(this);
+		bulletManager->draw(this);
+		break;
+	case State::GAMEOVER:
+		enemyManager->draw(this);
+		bulletManager->draw(this);
+		FontAsset(L"title").draw(L"GameOver", Vec2(200, 300), Palette::Lightgreen);
+		break;
+	};
 }
 
 void Game::creatActors(){
@@ -51,4 +78,11 @@ void Game::drawBack(){
 	FontAsset(L"log").draw(Format(player->getHp()), Vec2(0, 20), Palette::Lightgreen);
 	//TextureAsset(L"back").mirror().flip().draw(0, frameCount, Alpha(100));
 	//TextureAsset(L"back").mirror().draw(0, frameCount - 2048, Alpha(100));
+}
+
+void Game::gameStart(){
+	state = State::PLAY;
+	player->init();
+	bulletManager->clear();
+	enemyManager->clear();
 }

@@ -11,6 +11,11 @@ using EnemyManager = ActorManager<Enemy>;
 
 class Game{
 public:
+	enum class State{
+		TITLE,
+		PLAY,
+		GAMEOVER,
+	};
 	Game();
 	void update();
 	void draw();
@@ -20,6 +25,7 @@ public:
 	std::shared_ptr<EnemyManager> getEnemyManager()const{ return enemyManager; }
 
 	void drawBack();
+	void gameStart();
 	void creatActors();
 	static const Size stageSize;
 private:
@@ -27,5 +33,6 @@ private:
 	std::shared_ptr<BulletManager> bulletManager;
 	std::shared_ptr<EnemyManager> enemyManager;
 
+	State state;
 	int frameCount;
 };

@@ -32,7 +32,7 @@ hp(0), fireCount(0)
 }
 
 void Player::init(){
-	pos = Vec2(100, 100);
+	pos = Vec2(500, 700);
 	state = State::NORMAL;
 	hp = HP_MAX;
 	shotManager->clear();
