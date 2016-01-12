@@ -7,6 +7,7 @@ class Game;
 
 class Enemy : public Actor{
 public:
+	using Super = Enemy;
 	Enemy(Vec2 pos);
 	void update(Game* game)override;
 
@@ -21,8 +22,16 @@ protected:
 //Circle
 class CEnemy : public Enemy{
 public:
-	using Super = Enemy;
 	CEnemy(Vec2 pos);
+	void update(Game* game)override;
+	void draw(Game* game)override;
+private:
+};
+
+//Square
+class SEnemy : public Enemy{
+public:
+	SEnemy(Vec2 pos);
 	void update(Game* game)override;
 	void draw(Game* game)override;
 private:

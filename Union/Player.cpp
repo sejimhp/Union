@@ -7,7 +7,7 @@ Shot::Shot(Vec2 pos, double rad) :
 pos(pos), rad(rad), size(5.0){}
 
 void Shot::update(Game* game){
-	if (pos.x > Game::stageSize.x || pos.x < 0 || pos.y > Game::stageSize.y || pos.y < 0){
+	if (pos.x > Game::stageSize.x+5 || pos.x < -5 || pos.y > Game::stageSize.y+5 || pos.y < 0){
 		kill();
 	}
 
@@ -47,17 +47,31 @@ void Player::update(Game* game){
 	//fire
 	for (int i : {-1, 1, 0}) {
 		const double shotRad = Radians(5 * i);
-		if (fireCount % 5 == 0) {
+		if (fireCount % 10 == 0) {
 			auto shot = std::make_shared<Shot>(pos, shotRad-HalfPi);
 			shotManager->add(shot);
 		}
 	}
+
+	//catcher
+	if (Input::KeyZ.clicked){
+		frameCount = System::FrameCount();
+		state = State::CATCHER;
+	}
+	else if (state == State::CATCHER && System::FrameCount() - frameCount > 100){
+		state = State::NORMAL;
+	}
+
 	checkBulletHit(game);
 	shotManager->update(game);
 	fireCount++;
+	frameCount++;
 }
 
 void Player::draw(Game* game){
+	if (state == State::CATCHER){
+		Circle(pos, 150).draw(Color(100, 100, 0, 100));
+	}
 	shotManager->draw(game);
 	Triangle(pos, 30.0).draw(Color(150, 150, 255, 122)).drawFrame();
 	Circle(pos, 2).draw(Color(150, 0, 0, 122));

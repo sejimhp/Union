@@ -27,6 +27,7 @@ class Player{
 public:
 	enum class State{
 		NORMAL,
+		CATCHER,
 	};
 
 	Player();
@@ -42,7 +43,7 @@ private:
 	State state;
 	Vec2 pos;
 
-	int fireCount;
+	unsigned int frameCount,fireCount;
 	int hp;
 	std::shared_ptr<ShotManager> shotManager;
 };

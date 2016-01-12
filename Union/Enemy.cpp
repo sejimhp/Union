@@ -13,6 +13,7 @@ frameCount(0), damageCount(0), fireCount(0)
 
 void Enemy::update(Game* game){
 	frameCount++;
+	fireCount++;
 
 	if (pos.x > Game::stageSize.x || pos.x < 0 || pos.y > Game::stageSize.y || pos.y < 0){
 		kill();
@@ -42,11 +43,13 @@ void CEnemy::update(Game* game){
 	Super::update(game);
 	rad += Radians(2.0);
 
+	pos += Vec2(0.0, 2.0);
+
 	auto bulletManager = game->getBulletManager();
 	const Vec2 playerPos = game->getPlayer()->getPos();
-	if (fireCount % 2 == 0 && frameCount > 60){
-		for (auto i : step_to(-2, 2, 1)){
-			double shotRad = rad + TwoPi / 5 * i;
+	if (fireCount % 4 == 0 && frameCount > 60){
+		for (auto i : step_to(-1, 1, 1)){
+			double shotRad = rad + TwoPi / 3 * i;
 			auto bullet = std::make_shared<Bullet>(pos, Color(255, 100, 100), shotRad, 5.0, 0.0);
 			bulletManager->add(bullet);
 		}
@@ -55,5 +58,32 @@ void CEnemy::update(Game* game){
 
 void CEnemy::draw(Game* game){
 	Color color = damageCount < 10 ? Color(255, 200) : Color(Palette::Yellow).setAlpha(123);
-	RectF(size * 2).setCenter(pos).rotated(rad).draw(color).drawFrame();
+	Circle(pos, size).draw(color).drawFrame();
+}
+
+SEnemy::SEnemy(Vec2 pos) : Super(pos){
+	hp = 10;
+	size = 15.0;
+}
+
+void SEnemy::update(Game* game){
+	Super::update(game);
+	rad += Radians(2.0);
+
+	pos += Vec2(0.0, 2.0);
+
+	auto bulletManager = game->getBulletManager();
+	const Vec2 playerPos = game->getPlayer()->getPos();
+	if (fireCount % 1 == 0 && frameCount > 60){
+		for (auto i : step_to(-4, 4, 1)){
+			double shotRad = rad + TwoPi / 8 * i;
+			auto bullet = std::make_shared<Bullet>(pos, Color(255, 100, 100), shotRad, 5.0, 0.0);
+			bulletManager->add(bullet);
+		}
+	}
+}
+
+void SEnemy::draw(Game* game){
+	Color color = damageCount < 10 ? Color(255, 200) : Color(Palette::Yellow).setAlpha(123);
+	RectF(size * 2).setCenter(pos).rotated(rad*10).draw(color).drawFrame();
 }

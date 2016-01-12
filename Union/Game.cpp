@@ -48,7 +48,7 @@ void Game::draw(){
 	case State::TITLE:
 		enemyManager->draw(this);
 		bulletManager->draw(this);
-		FontAsset(L"title").draw(L"Union", Vec2(200, 300), Palette::Lightgreen);
+		FontAsset(L"title").draw(L"Union", Vec2(200, 300), Palette::Black);
 		break;
 	case State::PLAY:
 		player->draw(this);
@@ -65,15 +65,24 @@ void Game::draw(){
 
 void Game::creatActors(){
 	if (System::FrameCount() % 100 == 0){
-		auto pos = RandomVec2(stageSize.x, stageSize.y);
-		auto enemy = std::make_shared<CEnemy>(pos);
-		enemyManager->add(enemy);
+		auto Cpos = RandomVec2(stageSize.x, 0);
+		auto Cenemy = std::make_shared<CEnemy>(Cpos);
+		auto Spos = RandomVec2(stageSize.x, 0);
+		auto Senemy = std::make_shared<SEnemy>(Spos);
+		switch (Random(1, 2)){
+		case 1:
+			enemyManager->add(Cenemy);
+			break;
+		case 2:
+			enemyManager->add(Senemy);
+			break;
+		};
 	}
 }
 
 void Game::drawBack(){
-	TextureAsset(L"back").draw(0, frameCount / 2.0, Alpha(180));
-	TextureAsset(L"back").flip().draw(0, frameCount / 2.0 - 2048, Alpha(180));
+	//TextureAsset(L"back").draw(0, frameCount / 2.0, Alpha(180));
+	//TextureAsset(L"back").flip().draw(0, frameCount / 2.0 - 2048, Alpha(180));
 	FontAsset(L"log").draw(Format(frameCount), Vec2(0, 0), Palette::Lightgreen);
 	FontAsset(L"log").draw(Format(player->getHp()), Vec2(0, 20), Palette::Lightgreen);
 	//TextureAsset(L"back").mirror().flip().draw(0, frameCount, Alpha(100));
