@@ -8,12 +8,14 @@ Enemy::Enemy(Vec2 pos) :
 pos(pos),
 rad(0.0), size(0.0),
 hp(0),
-frameCount(0), damageCount(0), fireCount(0)
+frameCount(0), damageCount(0), fireCount(0),
+state(State::NORMAL)
 {}
 
 void Enemy::update(Game* game){
 	frameCount++;
 	fireCount++;
+	pos += Vec2(0.0, 2.0);
 
 	if (pos.x > Game::stageSize.x || pos.x < 0 || pos.y > Game::stageSize.y || pos.y < 0){
 		kill();
@@ -32,6 +34,16 @@ void Enemy::update(Game* game){
 		kill();
 	}
 
+	auto player = game->getPlayer();
+	if (player->boolCatcherState() && 
+		Circle(pos, size).intersects(Circle(player->getPos(), 150)))catchCount++;
+	else if (catchCount != 0) catchCount = 0;
+
+	if (catchCount == 50){
+		kill();
+		state = State::CATCHED;
+	}
+
 }
 
 CEnemy::CEnemy(Vec2 pos) : Super(pos){
@@ -43,8 +55,6 @@ void CEnemy::update(Game* game){
 	Super::update(game);
 	rad += Radians(2.0);
 
-	pos += Vec2(0.0, 2.0);
-
 	auto bulletManager = game->getBulletManager();
 	const Vec2 playerPos = game->getPlayer()->getPos();
 	if (fireCount % 4 == 0 && frameCount > 60){
@@ -54,6 +64,7 @@ void CEnemy::update(Game* game){
 			bulletManager->add(bullet);
 		}
 	}
+
 }
 
 void CEnemy::draw(Game* game){
@@ -70,8 +81,6 @@ void SEnemy::update(Game* game){
 	Super::update(game);
 	rad += Radians(2.0);
 
-	pos += Vec2(0.0, 2.0);
-
 	auto bulletManager = game->getBulletManager();
 	const Vec2 playerPos = game->getPlayer()->getPos();
 	if (fireCount % 1 == 0 && frameCount > 60){
@@ -85,5 +94,5 @@ void SEnemy::update(Game* game){
 
 void SEnemy::draw(Game* game){
 	Color color = damageCount < 10 ? Color(255, 200) : Color(Palette::Yellow).setAlpha(123);
-	RectF(size * 2).setCenter(pos).rotated(rad*10).draw(color).drawFrame();
+	RectF(size * 2).setCenter(pos).rotated(rad * 10).draw(color).drawFrame();
 }

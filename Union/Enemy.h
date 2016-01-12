@@ -7,16 +7,21 @@ class Game;
 
 class Enemy : public Actor{
 public:
+	enum class State{
+		NORMAL,
+		CATCHED,
+	};
 	using Super = Enemy;
 	Enemy(Vec2 pos);
 	void update(Game* game)override;
 
 	Vec2 getPos() const{ return pos; }
 protected:
+	State state;
 	Vec2 pos;
 	double rad, size;
 	int hp;
-	int frameCount, damageCount, fireCount;
+	int frameCount, damageCount, fireCount, catchCount;
 };
 
 //Circle

@@ -23,8 +23,9 @@ namespace{
 	static const int HP_MAX = 100;
 }
 
-Player::Player() :
+Player::Player(double size) :
 state(State::NORMAL),
+size(size),
 pos(100.0, 100.0),
 hp(0), fireCount(0)
 {
@@ -58,14 +59,13 @@ void Player::update(Game* game){
 		frameCount = System::FrameCount();
 		state = State::CATCHER;
 	}
-	else if (state == State::CATCHER && System::FrameCount() - frameCount > 100){
+	else if (state == State::CATCHER && (System::FrameCount() - frameCount) > 100){
 		state = State::NORMAL;
 	}
 
 	checkBulletHit(game);
 	shotManager->update(game);
 	fireCount++;
-	frameCount++;
 }
 
 void Player::draw(Game* game){
@@ -73,8 +73,9 @@ void Player::draw(Game* game){
 		Circle(pos, 150).draw(Color(100, 100, 0, 100));
 	}
 	shotManager->draw(game);
-	Triangle(pos, 30.0).draw(Color(150, 150, 255, 122)).drawFrame();
+	Triangle(pos, size).draw(Color(150, 150, 255, 122)).drawFrame();
 	Circle(pos, 2).draw(Color(150, 0, 0, 122));
+	Circle(pos, 25.0).drawArc(0.0, TwoPi * (static_cast<double>(hp) / HP_MAX), 0.0, 2.0, Color(255, 150, 150, 122));
 }
 
 void Player::checkBulletHit(Game* game){
@@ -84,5 +85,8 @@ void Player::checkBulletHit(Game* game){
 			hp--;
 			bullet->kill();
 		}
+	}
+	if (hp <= 0){
+		state = State::GAMEOVER;
 	}
 }

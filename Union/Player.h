@@ -28,21 +28,27 @@ public:
 	enum class State{
 		NORMAL,
 		CATCHER,
+		GAMEOVER,
 	};
 
-	Player();
+	Player(double size);
 	void init();
 	void update(Game* game);
 	void draw(Game* game);
 
 	Vec2 getPos() const { return pos; }
+	double getSize() const{ return size; }
 	int getHp() const { return hp; }
+	bool boolCatcherState() const { 
+		if(state == State::CATCHER) return true; 
+		else return false;
+	}
 	void checkBulletHit(Game* game);
 	std::shared_ptr<ShotManager> getShotManager() const { return shotManager; }
 private:
 	State state;
 	Vec2 pos;
-
+	double size;
 	unsigned int frameCount,fireCount;
 	int hp;
 	std::shared_ptr<ShotManager> shotManager;

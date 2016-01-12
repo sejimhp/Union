@@ -17,6 +17,7 @@ public:
 		GAMEOVER,
 	};
 	Game();
+	void init();
 	void update();
 	void draw();
 
@@ -34,5 +35,4 @@ private:
 	std::shared_ptr<EnemyManager> enemyManager;
 
 	State state;
-	int frameCount;
 };
