@@ -41,3 +41,12 @@ public:
 	void draw(Game* game)override;
 private:
 };
+
+//Turn Square
+class STEnemy : public Enemy{
+public:
+	STEnemy(Vec2 pos);
+	void update(Game* game)override;
+	void draw(Game* game)override;
+private:
+};

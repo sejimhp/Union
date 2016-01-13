@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include "Game.h"
+#include "Charactor.h"
 #include "Bullet.h"
 
 Shot::Shot(Vec2 pos, double rad) :
@@ -23,11 +24,7 @@ namespace{
 	static const int HP_MAX = 100;
 }
 
-Player::Player(double size) :
-state(State::NORMAL),
-size(size),
-pos(100.0, 100.0),
-hp(0), fireCount(0)
+Player::Player(Vec2 pos, int sstate, int ffig) : Charactor(pos, sstate, ffig)
 {
 	shotManager = std::make_shared<ShotManager>();
 }
@@ -48,7 +45,7 @@ void Player::update(Game* game){
 	//fire
 	for (int i : {-1, 1, 0}) {
 		const double shotRad = Radians(5 * i);
-		if (fireCount % 10 == 0) {
+		if (System::FrameCount() % 10 == 0) {
 			auto shot = std::make_shared<Shot>(pos, shotRad-HalfPi);
 			shotManager->add(shot);
 		}
@@ -65,12 +62,12 @@ void Player::update(Game* game){
 
 	checkBulletHit(game);
 	shotManager->update(game);
-	fireCount++;
 }
 
 void Player::draw(Game* game){
 	if (state == State::CATCHER){
-		Circle(pos, 150).draw(Color(100, 100, 0, 100));
+		Circle(pos, 120).draw(Color(100, 100, 0, 100));
+		Circle(pos, 120).drawArc(0.0, TwoPi * (static_cast<double>(System::FrameCount() - frameCount) / 100), 0.0, 2.0, Color(255, 150, 150, 122));
 	}
 	shotManager->draw(game);
 	Triangle(pos, size).draw(Color(150, 150, 255, 122)).drawFrame();

@@ -35,16 +35,16 @@ void Enemy::update(Game* game){
 	}
 
 	auto player = game->getPlayer();
-	if (player->boolCatcherState() && 
-		Circle(pos, size).intersects(Circle(player->getPos(), 150)))catchCount++;
+	if (
+		Circle(pos, size).intersects(Circle(player->getPos(), 120)))catchCount++;
 	else if (catchCount != 0) catchCount = 0;
 
 	if (catchCount == 50){
 		kill();
 		state = State::CATCHED;
 	}
-
 }
+
 
 CEnemy::CEnemy(Vec2 pos) : Super(pos){
 	hp = 10;
@@ -70,14 +70,15 @@ void CEnemy::update(Game* game){
 void CEnemy::draw(Game* game){
 	Color color = damageCount < 10 ? Color(255, 200) : Color(Palette::Yellow).setAlpha(123);
 	Circle(pos, size).draw(color).drawFrame();
+	Circle(pos, size + 10).drawArc(0.0, TwoPi * (static_cast<double>(catchCount) / 50), 0.0, 2.0, Color(150, 255, 150, 122));
 }
 
-SEnemy::SEnemy(Vec2 pos) : Super(pos){
+STEnemy::STEnemy(Vec2 pos) : Super(pos){
 	hp = 10;
 	size = 15.0;
 }
 
-void SEnemy::update(Game* game){
+void STEnemy::update(Game* game){
 	Super::update(game);
 	rad += Radians(2.0);
 
@@ -92,7 +93,34 @@ void SEnemy::update(Game* game){
 	}
 }
 
-void SEnemy::draw(Game* game){
+void STEnemy::draw(Game* game){
 	Color color = damageCount < 10 ? Color(255, 200) : Color(Palette::Yellow).setAlpha(123);
 	RectF(size * 2).setCenter(pos).rotated(rad * 10).draw(color).drawFrame();
+	Circle(pos, size + 10).drawArc(0.0, TwoPi * (static_cast<double>(catchCount) / 50), 0.0, 2.0, Color(150, 255, 150, 122));
+}
+
+SEnemy::SEnemy(Vec2 pos) : Super(pos){
+	hp = 20;
+	size = 15.0;
+}
+
+void SEnemy::update(Game* game){
+	Super::update(game);
+	const Vec2 playerPos = game->getPlayer()->getPos();
+	const double rad = Atan2(playerPos.y - pos.y, playerPos.x - pos.x);
+
+	auto bulletManager = game->getBulletManager();
+	if (fireCount % 1 == 0 && frameCount > 60){
+		for (auto i : step(1)){
+			double shotRad = rad + TwoPi / (Random(-2, 2) * 20);
+			auto bullet = std::make_shared<Bullet>(pos, Color(255, 100, 100), shotRad, 5.0, 0.0);
+			bulletManager->add(bullet);
+		}
+	}
+}
+
+void SEnemy::draw(Game* game){
+	Color color = damageCount < 10 ? Color(255, 200) : Color(Palette::Yellow).setAlpha(123);
+	RectF(size * 2).setCenter(pos).draw(color).drawFrame();
+	Circle(pos, size + 10).drawArc(0.0, TwoPi * (static_cast<double>(catchCount) / 50), 0.0, 2.0, Color(150, 255, 150, 122));
 }

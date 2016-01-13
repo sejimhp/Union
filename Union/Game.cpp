@@ -8,15 +8,13 @@ const Size Game::stageSize = Size(1366, 768);
 
 Game::Game(){
 	state = State::TITLE;
-	player = std::make_shared<Player>(30.0);
+	player = std::make_shared<Player>(Vec2(0,0), 1, 1);
 	enemyManager = std::make_shared<EnemyManager>();
 	bulletManager = std::make_shared<BulletManager>();
 
 	FontAsset::Register(L"log", 10, L"Orbitron");
 	FontAsset::Register(L"title", 50, L"Orbitron");
 	TextureAsset::Register(L"back", L"dat/cloud.jpg");
-
-	player->init();
 }
 
 void Game::init(){
@@ -30,14 +28,15 @@ void Game::update(){
 	switch (state){
 	case State::TITLE:
 		if (Input::KeySpace.clicked) gameStart();
-		enemyManager->update(this);
-		bulletManager->update(this);
+		//creatActors();
+		//enemyManager->update(this);
+		//ulletManager->update(this);
 		break;
 	case State::PLAY:
-		creatActors();
+		//creatActors();
 		player->update(this);
-		enemyManager->update(this);
-		bulletManager->update(this);
+		//enemyManager->update(this);
+		//bulletManager->update(this);
 		if (player->getHp() <= 0){ state = State::GAMEOVER; }
 		break;
 	case State::GAMEOVER:
@@ -54,18 +53,18 @@ void Game::draw(){
 
 	switch (state){
 	case State::TITLE:
-		enemyManager->draw(this);
 		bulletManager->draw(this);
+		enemyManager->draw(this);
 		FontAsset(L"title").draw(L"Union", Vec2(200, 300), Palette::Black);
 		break;
 	case State::PLAY:
 		player->draw(this);
-		enemyManager->draw(this);
 		bulletManager->draw(this);
+		enemyManager->draw(this);
 		break;
 	case State::GAMEOVER:
-		enemyManager->draw(this);
 		bulletManager->draw(this);
+		enemyManager->draw(this);
 		FontAsset(L"title").draw(L"GameOver", Vec2(200, 300), Palette::Lightgreen);
 		break;
 	};
@@ -77,12 +76,17 @@ void Game::creatActors(){
 		auto Cenemy = std::make_shared<CEnemy>(Cpos);
 		auto Spos = RandomVec2(stageSize.x, 0);
 		auto Senemy = std::make_shared<SEnemy>(Spos);
-		switch (Random(1, 2)){
+		auto STpos = RandomVec2(stageSize.x, 0);
+		auto STenemy = std::make_shared<STEnemy>(Spos);
+		switch (Random(1, 3)){
 		case 1:
 			enemyManager->add(Cenemy);
 			break;
 		case 2:
 			enemyManager->add(Senemy);
+			break;
+		case 3:
+			enemyManager->add(STenemy);
 			break;
 		};
 	}
