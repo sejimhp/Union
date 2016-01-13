@@ -9,20 +9,6 @@ class Bullet;
 using BulletManager = ActorManager<Bullet>;
 using EnemyManager = ActorManager<Enemy>;
 
-/*namespace {
-	enum class CharState{
-		NORMAL,
-		CATCHED,
-		GAMEOVER,
-	};
-	enum class CharFigure{
-		TRIANGLE,
-		SQUARE,
-		TSQUARE,
-		CIRCLE,
-	};
-}*/
-
 class Game{
 public:
 	enum class State{

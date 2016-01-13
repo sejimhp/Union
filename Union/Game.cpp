@@ -28,15 +28,15 @@ void Game::update(){
 	switch (state){
 	case State::TITLE:
 		if (Input::KeySpace.clicked) gameStart();
-		//creatActors();
-		//enemyManager->update(this);
-		//ulletManager->update(this);
+		creatActors();
+		enemyManager->update(this);
+		bulletManager->update(this);
 		break;
 	case State::PLAY:
-		//creatActors();
+		creatActors();
 		player->update(this);
-		//enemyManager->update(this);
-		//bulletManager->update(this);
+		enemyManager->update(this);
+		bulletManager->update(this);
 		if (player->getHp() <= 0){ state = State::GAMEOVER; }
 		break;
 	case State::GAMEOVER:
@@ -72,12 +72,11 @@ void Game::draw(){
 
 void Game::creatActors(){
 	if (System::FrameCount() % 100 == 0){
-		auto Cpos = RandomVec2(stageSize.x, 0);
-		auto Cenemy = std::make_shared<CEnemy>(Cpos);
-		auto Spos = RandomVec2(stageSize.x, 0);
-		auto Senemy = std::make_shared<SEnemy>(Spos);
-		auto STpos = RandomVec2(stageSize.x, 0);
-		auto STenemy = std::make_shared<STEnemy>(Spos);
+		auto pos = RandomVec2(stageSize.x, 0);
+
+		auto Cenemy = std::make_shared<Enemy>(pos, 1, 4);
+		auto Senemy = std::make_shared<Enemy>(pos, 1, 2);
+		auto STenemy = std::make_shared<Enemy>(pos, 1, 3);
 		switch (Random(1, 3)){
 		case 1:
 			enemyManager->add(Cenemy);

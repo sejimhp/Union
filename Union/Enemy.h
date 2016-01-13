@@ -2,51 +2,17 @@
 #include <Siv3D.hpp>
 
 #include "Actor.h"
+#include "Charactor.h"
 
 class Game;
 
-class Enemy : public Actor{
+class Enemy : public Charactor{
 public:
-	enum class State{
-		NORMAL,
-		CATCHED,
-	};
-	using Super = Enemy;
-	Enemy(Vec2 pos);
-	void update(Game* game)override;
-
-	Vec2 getPos() const{ return pos; }
-protected:
-	State state;
-	Vec2 pos;
-	double rad, size;
-	int hp;
-	int frameCount, damageCount, fireCount, catchCount;
-};
-
-//Circle
-class CEnemy : public Enemy{
-public:
-	CEnemy(Vec2 pos);
+	Enemy(Vec2 pos, int sstate, int ffig);
 	void update(Game* game)override;
 	void draw(Game* game)override;
-private:
-};
 
-//Square
-class SEnemy : public Enemy{
-public:
-	SEnemy(Vec2 pos);
-	void update(Game* game)override;
-	void draw(Game* game)override;
+	void bulletUpdate(Game* game);
 private:
-};
-
-//Turn Square
-class STEnemy : public Enemy{
-public:
-	STEnemy(Vec2 pos);
-	void update(Game* game)override;
-	void draw(Game* game)override;
-private:
+	int damageCount;
 };

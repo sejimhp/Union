@@ -24,7 +24,7 @@ namespace{
 	static const int HP_MAX = 100;
 }
 
-Player::Player(Vec2 pos, int sstate, int ffig) : Charactor(pos, sstate, ffig)
+Player::Player(Vec2 pos, int sstate, int ffig) : Super(pos, sstate, ffig)
 {
 	shotManager = std::make_shared<ShotManager>();
 }

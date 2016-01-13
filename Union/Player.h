@@ -32,10 +32,7 @@ public:
 	void update(Game* game);
 	void draw(Game* game);
 
-	bool boolCatcherState() const {
-		if (state == State::CATCHER) return true;
-		else return false;
-	}
+	State getState() const { return state; }
 	void checkBulletHit(Game* game);
 	std::shared_ptr<ShotManager> getShotManager() const { return shotManager; }
 private:

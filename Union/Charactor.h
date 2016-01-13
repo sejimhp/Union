@@ -18,6 +18,8 @@ public:
 		TSQUARE,
 		CIRCLE,
 	};
+	using Super = Charactor;
+
 	Charactor(Vec2 pos, int sstate, int ffig);
 	void update(Game* game)override;
 	void draw(Game* game) override;
