@@ -9,17 +9,24 @@ class Game;
 
 class Player : public Charactor{
 public:
-	Player(Vec2 pos, int sstate, int ffig);
-	Player(int sstate, int ffig);
+	enum class State{
+		NORMAL,
+		CATCHER,
+		GAMEOVER,
+	};
+	Player(Vec2 pos, int ffig);
+	Player(Figure ffig);
+	Player(int ffig);
 	void init();
 	void update(Game* game);
 	void draw(Game* game)override;
 
 	void setMember(int num);
 	void setPos(Vec2 pos) { this->pos = pos; }
-	State getState() const { return state; }
 	void checkBulletHit(Game* game);
+	bool IsStateCATCHER() const{ return state == State::CATCHER; }
 private:
+	State state;
 };
 
 class MemberManager{
@@ -31,9 +38,10 @@ public:
 	int size(){ return actors.size(); }
 
 	void update(Game* game){
-		for (auto& actor : actors){
-			if (actor != nullptr){
-				actor->update(game);
+		for (int i : step(5)){
+			if (actors[i] != nullptr){
+				actors[i]->update(game);
+				if (i != 2 && actors[i]->getHp() <= 0){ actors[i] = nullptr; }
 			}
 		}
 		adjPos();

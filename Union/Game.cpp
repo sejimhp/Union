@@ -73,9 +73,9 @@ void Game::creatActors(){
 	if (System::FrameCount() % 100 == 0){
 		auto pos = RandomVec2(stageSize.x, 0);
 
-		auto Cenemy = std::make_shared<Enemy>(pos, 1, 4);
-		auto Senemy = std::make_shared<Enemy>(pos, 1, 2);
-		auto STenemy = std::make_shared<Enemy>(pos, 1, 3);
+		auto Cenemy = std::make_shared<Enemy>(pos, 4);
+		auto Senemy = std::make_shared<Enemy>(pos, 2);
+		auto STenemy = std::make_shared<Enemy>(pos, 3);
 		switch (Random(1, 3)){
 		case 1:
 			enemyManager->add(Cenemy);
@@ -103,10 +103,10 @@ void Game::gameStart(){
 	state = State::PLAY;
 	init();
 	//main‚Ì©‹@
-	playerManager->add(std::make_shared<Player>(1, 2));
-	playerManager->add(std::make_shared<Player>(1, 3));
-	playerManager->add(std::make_shared<Player>(1, 4));
-	playerManager->add(std::make_shared<Player>(1, 1));
+	//playerManager->add(std::make_shared<Player>(1, 2));
+	//playerManager->add(std::make_shared<Player>(1, 3));
+	//playerManager->add(std::make_shared<Player>(1, 4));
+	//playerManager->add(std::make_shared<Player>(1, 1));
 }
 
 void Game::init(){
@@ -114,5 +114,5 @@ void Game::init(){
 	enemyManager->clear();
 	bulletManager->clear();
 	myBulletManager->clear();
-	playerManager->addMain(std::make_shared<Player>(Vec2(300, 700), 1, 1));
+	playerManager->addMain(std::make_shared<Player>(Vec2(300, 700), 1));
 }

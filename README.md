@@ -5,5 +5,7 @@
 さんの
 [Alone](https://github.com/yashihei/Alone)
 を参考にしながら作成します  
+まだまだ完成ではないけど、とりあえず現状  
 
-![](ss.png)
+
+![](ss.png)  

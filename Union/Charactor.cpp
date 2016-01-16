@@ -20,18 +20,14 @@ void Charactor::drawChar(){
 	};
 }
 
-Charactor::Charactor(Vec2 pos, int sstate, int ffig) :
+Charactor::Charactor(Vec2 pos, Figure fig) :
+pos(pos), rad(0), fig(fig)
+{}
+
+Charactor::Charactor(Vec2 pos, int ffig) :
 pos(pos), rad(0),
 frameCount(0), catchCount(0)
 {
-	switch (sstate){
-	case 1:
-		state = State::NORMAL;
-		break;
-	case 2:
-		state = State::CATCHED;
-		break;
-	};
 	switch (ffig){
 	case 1:
 		fig = Figure::TRIANGLE;

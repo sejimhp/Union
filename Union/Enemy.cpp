@@ -4,7 +4,7 @@
 #include "Bullet.h"
 #include "Player.h"
 
-Enemy::Enemy(Vec2 pos, int sstate, int ffig) : Super(pos, sstate, ffig){}
+Enemy::Enemy(Vec2 pos, int ffig) : Super(pos, ffig){}
 
 void Enemy::update(Game* game){
 	frameCount++;
@@ -26,13 +26,12 @@ void Enemy::update(Game* game){
 	}
 
 	auto player = game->getPlayerManager()->getMainPlayer();
-	if (player->getState() == State::CATCHER &&
+	if (player->IsStateCATCHER() &&
 		Circle(pos, size).intersects(Circle(player->getPos(), 120)))catchCount++;
 	else if (catchCount != 0) catchCount = 0;
 	
 	if (catchCount == 50){
 		kill();
-		state = State::CATCHED;
 	}
 }
 

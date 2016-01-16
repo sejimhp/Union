@@ -8,7 +8,7 @@ class Game;
 
 class Enemy : public Charactor{
 public:
-	Enemy(Vec2 pos, int sstate, int ffig);
+	Enemy(Vec2 pos, int ffig);
 	void update(Game* game)override;
 	void draw(Game* game)override;
 

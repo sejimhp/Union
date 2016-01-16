@@ -8,12 +8,12 @@ namespace{
 	static const int HP_MAX = 100;
 }
 
-Player::Player(Vec2 pos, int sstate, int ffig) : Super(pos, sstate, ffig){}
-Player::Player(int sstate, int ffig) : Super(Vec2(0, 0), sstate, ffig){}
+Player::Player(Vec2 pos, int ffig) : Super(pos, ffig){}
+Player::Player(Figure ffig) : Super(Vec2(0, 0), ffig){}
+Player::Player(int ffig) : Super(Vec2(0, 0), ffig){}
 
 void Player::init(){
 	pos = Vec2(500, 700);
-	state = State::NORMAL;
 	hp = HP_MAX;
 }
 
