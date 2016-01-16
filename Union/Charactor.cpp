@@ -21,8 +21,30 @@ void Charactor::drawChar(){
 }
 
 Charactor::Charactor(Vec2 pos, Figure fig) :
-pos(pos), rad(0), fig(fig)
-{}
+pos(pos), rad(0), fig(fig){
+	switch (fig){
+	case Figure::TRIANGLE:
+		hp = 100;
+		size = 25.0;
+		color = Color(150, 150, 255, 122);
+		break;
+	case Figure::SQUARE:
+		hp = 30;
+		size = 15.0;
+		color = Color(Palette::Yellow, 222);
+		break;
+	case Figure::TSQUARE:
+		hp = 30;
+		size = 15.0;
+		color = Color(Palette::Purple, 222);
+		break;
+	case Figure::CIRCLE:
+		hp = 30;
+		size = 15.0;
+		color = Color(Palette::Lightgreen, 222);
+		break;
+	};
+}
 
 Charactor::Charactor(Vec2 pos, int ffig) :
 pos(pos), rad(0),
@@ -52,17 +74,17 @@ frameCount(0), catchCount(0)
 	case Figure::SQUARE:
 		hp = 10;
 		size = 15.0;
-		color = Color(Palette::Yellow, 122);
+		color = Color(Palette::Yellow, 222);
 		break;
 	case Figure::TSQUARE:
 		hp = 10;
 		size = 15.0;
-		color = Color(Palette::Rosybrown, 122);
+		color = Color(Palette::Purple, 222);
 		break;
 	case Figure::CIRCLE:
 		hp = 10;
 		size = 15.0;
-		color = Color(Palette::Goldenrod, 122);
+		color = Color(Palette::Lightgreen, 222);
 		break;
 	}
 }

@@ -34,7 +34,7 @@ void Player::update(Game* game){
 	}
 
 	//catcher
-	if (Input::KeyZ.clicked){
+	if (Input::KeyZ.clicked && fig == Figure::TRIANGLE){
 		frameCount = System::FrameCount();
 		state = State::CATCHER;
 	}
@@ -78,5 +78,4 @@ void MemberManager::add(std::shared_ptr<Player> actor){
 	else if (actors[3] == nullptr){ actors[3] = actor; }
 	else if (actors[0] == nullptr){ actors[0] = actor; }
 	else if (actors[4] == nullptr){ actors[4] = actor; }
-	void adjPos();
 }

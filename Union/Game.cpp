@@ -34,7 +34,7 @@ void Game::update(){
 		enemyManager->update(this);
 		bulletManager->update(this);
 		myBulletManager->update(this);
-		//if (playerManager->getHp() <= 0){ state = State::GAMEOVER; }
+		if (playerManager->getMainPlayer()->getHp() <= 0){ state = State::GAMEOVER; }
 		break;
 	case State::GAMEOVER:
 		if (Input::KeySpace.clicked){
@@ -103,7 +103,7 @@ void Game::gameStart(){
 	state = State::PLAY;
 	init();
 	//main‚Ì©‹@
-	//playerManager->add(std::make_shared<Player>(1, 2));
+	playerManager->add(std::make_shared<Player>(2));
 	//playerManager->add(std::make_shared<Player>(1, 3));
 	//playerManager->add(std::make_shared<Player>(1, 4));
 	//playerManager->add(std::make_shared<Player>(1, 1));

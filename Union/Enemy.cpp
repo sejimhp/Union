@@ -31,6 +31,8 @@ void Enemy::update(Game* game){
 	else if (catchCount != 0) catchCount = 0;
 	
 	if (catchCount == 50){
+		auto playerManager = game->getPlayerManager();
+		playerManager->add(std::make_shared<Player>(fig));
 		kill();
 	}
 }
