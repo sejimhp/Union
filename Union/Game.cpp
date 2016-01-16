@@ -23,7 +23,7 @@ void Game::update(){
 	switch (state){
 	case State::TITLE:
 		if (Input::KeySpace.clicked) gameStart();
-		//creatActors();
+		creatActors();
 		enemyManager->update(this);
 		bulletManager->update(this);
 		break;
@@ -100,13 +100,12 @@ void Game::drawBack(){
 
 void Game::gameStart(){
 	state = State::PLAY;
-	//init();
+	init();
 	//main‚Ì©‹@
-	playerManager->addMain(std::make_shared<Player>(Vec2(300, 700), 1, 1));
-	playerManager->add(std::make_shared<Player>(Vec2(200, 700), 1, 1));
-	playerManager->add(std::make_shared<Player>(Vec2(100, 700), 1, 1));
-	playerManager->add(std::make_shared<Player>(Vec2(400, 700), 1, 1));
-	playerManager->add(std::make_shared<Player>(Vec2(500, 700), 1, 1));
+	playerManager->add(std::make_shared<Player>(1, 1));
+	playerManager->add(std::make_shared<Player>(1, 1));
+	playerManager->add(std::make_shared<Player>(1, 1));
+	playerManager->add(std::make_shared<Player>(1, 1));
 }
 
 void Game::init(){
@@ -114,5 +113,5 @@ void Game::init(){
 	enemyManager->clear();
 	bulletManager->clear();
 	myBulletManager->clear();
-	playerManager->addMain(std::make_shared<Player>(Vec2(0,0), 1, 1));
+	playerManager->addMain(std::make_shared<Player>(Vec2(300, 700), 1, 1));
 }

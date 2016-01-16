@@ -9,6 +9,7 @@ namespace{
 }
 
 Player::Player(Vec2 pos, int sstate, int ffig) : Super(pos, sstate, ffig){}
+Player::Player(int sstate, int ffig) : Super(Vec2(0, 0), sstate, ffig){}
 
 void Player::init(){
 	pos = Vec2(500, 700);
@@ -72,12 +73,9 @@ MemberManager::MemberManager(){
 }
 
 void MemberManager::add(std::shared_ptr<Player> actor){
-	if (actors[1] == nullptr)
-		actors[1] = actor;
-	else if (actors[3] == nullptr)
-		actors[3] = actor;
-	else if (actors[0] == nullptr)
-		actors[0] = actor;
-	else if (actors[4] == nullptr)
-		actors[4] = actor;
+	if (actors[1] == nullptr){ actors[1] = actor; }
+	else if (actors[3] == nullptr){ actors[3] = actor; }
+	else if (actors[0] == nullptr){ actors[0] = actor; }
+	else if (actors[4] == nullptr){ actors[4] = actor; }
+	void adjPos();
 }
