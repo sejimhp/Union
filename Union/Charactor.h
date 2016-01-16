@@ -22,7 +22,7 @@ public:
 
 	Charactor(Vec2 pos, int sstate, int ffig);
 	void update(Game* game)override;
-	void draw(Game* game) override;
+	void drawChar();
 
 	//return
 	int getHp() const { return hp; }
@@ -31,6 +31,7 @@ public:
 	State getState() const{ return state; }
 	Figure getFigre() const{ return fig; }
 protected:
+	Color color;
 	State state;
 	Figure fig;
 	Vec2 pos;

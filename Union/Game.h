@@ -24,8 +24,8 @@ public:
 	void draw();
 
 	std::shared_ptr<PlayerManager> getPlayerManager()const{ return playerManager; }
-	std::shared_ptr<BulletManager> getBulletManager()const{ return myBulletManager; }
-	std::shared_ptr<BulletManager> getMyBulletManager()const{ return bulletManager; }
+	std::shared_ptr<BulletManager> getBulletManager()const{ return bulletManager; }
+	std::shared_ptr<BulletManager> getMyBulletManager()const{ return myBulletManager; }
 	std::shared_ptr<EnemyManager> getEnemyManager()const{ return enemyManager; }
 
 	void drawBack();

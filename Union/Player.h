@@ -13,7 +13,7 @@ public:
 	Player(int sstate, int ffig);
 	void init();
 	void update(Game* game);
-	void draw(Game* game);
+	void draw(Game* game)override;
 
 	void setMember(int num);
 	void setPos(Vec2 pos) { this->pos = pos; }

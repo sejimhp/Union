@@ -16,6 +16,7 @@ Game::Game(){
 	FontAsset::Register(L"log", 10, L"Orbitron");
 	FontAsset::Register(L"title", 50, L"Orbitron");
 	TextureAsset::Register(L"back", L"dat/cloud.jpg");
+	init();
 }
 
 
@@ -28,7 +29,7 @@ void Game::update(){
 		bulletManager->update(this);
 		break;
 	case State::PLAY:
-		//creatActors();
+		creatActors();
 		playerManager->update(this);
 		enemyManager->update(this);
 		bulletManager->update(this);
@@ -102,9 +103,9 @@ void Game::gameStart(){
 	state = State::PLAY;
 	init();
 	//main‚Ì©‹@
-	playerManager->add(std::make_shared<Player>(1, 1));
-	playerManager->add(std::make_shared<Player>(1, 1));
-	playerManager->add(std::make_shared<Player>(1, 1));
+	playerManager->add(std::make_shared<Player>(1, 2));
+	playerManager->add(std::make_shared<Player>(1, 3));
+	playerManager->add(std::make_shared<Player>(1, 4));
 	playerManager->add(std::make_shared<Player>(1, 1));
 }
 

@@ -4,4 +4,6 @@
 [@yashihei](https://github.com/yashihei)
 さんの
 [Alone](https://github.com/yashihei/Alone)
-を参考にしながら作成します
+を参考にしながら作成します  
+
+![](ss.png)

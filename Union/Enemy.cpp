@@ -29,7 +29,7 @@ void Enemy::update(Game* game){
 	if (player->getState() == State::CATCHER &&
 		Circle(pos, size).intersects(Circle(player->getPos(), 120)))catchCount++;
 	else if (catchCount != 0) catchCount = 0;
-
+	
 	if (catchCount == 50){
 		kill();
 		state = State::CATCHED;
@@ -72,17 +72,7 @@ void Enemy::bulletUpdate(Game* game){
 }
 
 void Enemy::draw(Game* game){
-	Color color = damageCount < 10 ? Color(255, 200) : Color(Palette::Yellow).setAlpha(123);
-	switch (fig){
-	case Figure::CIRCLE:
-		Circle(pos, size).draw(color).drawFrame();
-		break;
-	case Figure::SQUARE:
-		RectF(size * 2).setCenter(pos).draw(color).drawFrame();
-		break;
-	case Figure::TSQUARE:
-		RectF(size * 2).setCenter(pos).rotated(rad * 10).draw(color).drawFrame();
-		break;
-	};
+	//Color color = damageCount < 10 ? Color(255, 200) : Color(Palette::Yellow).setAlpha(123);
+	drawChar();
 	Circle(pos, size + 10).drawArc(0.0, TwoPi * (static_cast<double>(catchCount) / 50), 0.0, 2.0, Color(150, 255, 150, 122));
 }

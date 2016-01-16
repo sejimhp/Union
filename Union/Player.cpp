@@ -50,9 +50,10 @@ void Player::draw(Game* game){
 		Circle(pos, 120).draw(Color(100, 100, 0, 100));
 		Circle(pos, 120).drawArc(0.0, TwoPi * (static_cast<double>(System::FrameCount() - frameCount) / 100), 0.0, 2.0, Color(255, 150, 150, 122));
 	}
-	Triangle(pos, size).draw(Color(150, 150, 255, 122)).drawFrame();
+	drawChar();
 	Circle(pos, 2).draw(Color(150, 0, 0, 122));
 	Circle(pos, 25.0).drawArc(0.0, TwoPi * (static_cast<double>(hp) / HP_MAX), 0.0, 2.0, Color(255, 150, 150, 122));
+	
 }
 
 void Player::checkBulletHit(Game* game){

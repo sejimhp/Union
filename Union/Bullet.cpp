@@ -9,7 +9,7 @@ rad(rad),
 speed(speed),
 accel(accel),
 size(5.0),
-type(BulletKind::SQUARE)
+type(BulletKind::CIRCLE)
 {}
 
 void Bullet::update(Game* game){
