@@ -16,7 +16,7 @@ void Enemy::update(Game* game){
 		kill();
 	}
 
-	auto shotManager = game->getPlayer()->getShotManager();
+	auto shotManager = game->getMyBulletManager();
 	for (auto& shot : *shotManager){
 		if (Circle(pos, size).intersects(Circle(shot->getPos(), shot->getSize()))){
 			hp--;
@@ -25,8 +25,8 @@ void Enemy::update(Game* game){
 		}
 	}
 
-	auto player = game->getPlayer();
-	if (
+	auto player = game->getPlayerManager()->getMainPlayer();
+	if (player->getState() == State::CATCHER &&
 		Circle(pos, size).intersects(Circle(player->getPos(), 120)))catchCount++;
 	else if (catchCount != 0) catchCount = 0;
 
@@ -38,7 +38,7 @@ void Enemy::update(Game* game){
 
 void Enemy::bulletUpdate(Game* game){
 	auto bulletManager = game->getBulletManager();
-	const Vec2 playerPos = game->getPlayer()->getPos();
+	const Vec2 playerPos = game->getPlayerManager()->getMainPlayer()->getPos();
 	const double rad2 = Atan2(playerPos.y - pos.y, playerPos.x - pos.x);
 
 	rad += Radians(2.0);
@@ -54,15 +54,13 @@ void Enemy::bulletUpdate(Game* game){
 		break;
 	case Figure::SQUARE:
 		if (System::FrameCount() % 1 == 0 && frameCount > 60){
-			for (auto i : step(1)){
-				double shotRad = rad2 + TwoPi / (Random(-2, 2) * 20);
-				auto bullet = std::make_shared<Bullet>(pos, Color(255, 100, 100), shotRad, 5.0, 0.0);
-				bulletManager->add(bullet);
-			}
+			double shotRad = rad2 + TwoPi / (Random(-2.0, 2.0) * 20);
+			auto bullet = std::make_shared<Bullet>(pos, Color(255, 100, 100), shotRad, 5.0, 0.0);
+			bulletManager->add(bullet);
 		}
 		break;
 	case Figure::TSQUARE:
-		if (System::FrameCount() % 2 == 0 && frameCount > 60){
+		if (System::FrameCount() % 4 == 0 && frameCount > 60){
 			for (auto i : step_to(-4, 4, 1)){
 				double shotRad = rad + TwoPi / 8 * i;
 				auto bullet = std::make_shared<Bullet>(pos, Color(255, 100, 100), shotRad, 5.0, 0.0);

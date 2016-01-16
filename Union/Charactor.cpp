@@ -32,6 +32,7 @@ frameCount(0), catchCount(0)
 		fig = Figure::CIRCLE;
 		break;
 	};
+	//Šeƒ‚ƒfƒ‹
 	switch (fig){
 	case Figure::TRIANGLE:
 		hp = 100;

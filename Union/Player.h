@@ -7,24 +7,6 @@
 
 class Game;
 
-class Shot : public Actor{
-public:
-	Shot(Vec2 pos, double rad);
-	void update(Game* game) override;
-	void draw(Game* game) override;
-
-	Vec2 getPos() const { return pos; }
-	double getSize() const{ return size; }
-	int getStrong() const { return strong; }
-private:
-	Vec2 pos, vec;
-	double rad, size;
-
-	int strong;
-};
-
-using ShotManager = ActorManager < Shot >;
-
 class Player : public Charactor{
 public:
 	Player(Vec2 pos, int sstate, int ffig);
@@ -32,9 +14,41 @@ public:
 	void update(Game* game);
 	void draw(Game* game);
 
+	void setMember(int num);
 	State getState() const { return state; }
 	void checkBulletHit(Game* game);
-	std::shared_ptr<ShotManager> getShotManager() const { return shotManager; }
 private:
-	std::shared_ptr<ShotManager> shotManager;
+};
+
+class MemberManager{
+public:
+	MemberManager();
+	virtual ~MemberManager() = default;
+
+	void clear(){ actors.clear(); }
+	int size(){ return actors.size(); }
+
+	void update(Game* game){
+		for (auto& actor : actors){
+			if (actor != nullptr){
+				actor->update(game);
+			}
+		}
+		//Erase_if(actors, [](std::shared_ptr<Player> actor){return !actor->isEnabled(); });
+	}
+	void draw(Game* game){
+		for (auto& actor : actors){
+			if (actor != nullptr){
+				actor->draw(game);
+			}
+		}
+	}
+
+	//typename std::vector<std::shared_ptr<Charactor>>::const_iterator begin(){ return actors.begin(); }
+	//typename std::vector<std::shared_ptr<Charactor>>::const_iterator end(){ return actors.end(); }
+	void add(std::shared_ptr<Player> actor);
+	void addMain(std::shared_ptr<Player> actor){ actors[2] = actor; }
+	std::shared_ptr<Player> getMainPlayer() const{ return actors[2]; }
+private:
+	std::vector<std::shared_ptr<Player>> actors;
 };

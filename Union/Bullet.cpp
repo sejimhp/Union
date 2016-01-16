@@ -8,7 +8,8 @@ color(color),
 rad(rad),
 speed(speed),
 accel(accel),
-size(5.0)
+size(5.0),
+type(BulletKind::SQUARE)
 {}
 
 void Bullet::update(Game* game){
@@ -23,5 +24,15 @@ void Bullet::update(Game* game){
 }
 
 void Bullet::draw(Game* game){
-	Circle(pos, size).draw(color.setAlpha(200));
+	switch(type){
+	case BulletKind::CIRCLE:
+		Circle(pos, size).draw(color.setAlpha(200));
+		break;
+	case BulletKind::TRIANGLE:
+		Triangle({ -5, 5 }, { 0, -15 }, { 5, 5 }).setCentroid(pos).draw(Color(255, 165, 30));
+		break;
+	case BulletKind::SQUARE:
+		RectF(size * 2).setCenter(pos).draw(Palette::Aliceblue).drawFrame();
+		break;
+	};
 }

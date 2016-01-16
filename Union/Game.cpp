@@ -8,8 +8,9 @@ const Size Game::stageSize = Size(1366, 768);
 
 Game::Game(){
 	state = State::TITLE;
-	player = std::make_shared<Player>(Vec2(0,0), 1, 1);
+	playerManager = std::make_shared<PlayerManager>();
 	enemyManager = std::make_shared<EnemyManager>();
+	myBulletManager = std::make_shared<BulletManager>();
 	bulletManager = std::make_shared<BulletManager>();
 
 	FontAsset::Register(L"log", 10, L"Orbitron");
@@ -17,27 +18,22 @@ Game::Game(){
 	TextureAsset::Register(L"back", L"dat/cloud.jpg");
 }
 
-void Game::init(){
-	player->init();
-	enemyManager->clear();
-	bulletManager->clear();
-}
 
 void Game::update(){
-
 	switch (state){
 	case State::TITLE:
 		if (Input::KeySpace.clicked) gameStart();
-		creatActors();
+		//creatActors();
 		enemyManager->update(this);
 		bulletManager->update(this);
 		break;
 	case State::PLAY:
-		creatActors();
-		player->update(this);
+		//creatActors();
+		playerManager->update(this);
 		enemyManager->update(this);
 		bulletManager->update(this);
-		if (player->getHp() <= 0){ state = State::GAMEOVER; }
+		myBulletManager->update(this);
+		//if (playerManager->getHp() <= 0){ state = State::GAMEOVER; }
 		break;
 	case State::GAMEOVER:
 		if (Input::KeySpace.clicked){
@@ -58,12 +54,14 @@ void Game::draw(){
 		FontAsset(L"title").draw(L"Union", Vec2(200, 300), Palette::Black);
 		break;
 	case State::PLAY:
-		player->draw(this);
+		playerManager->draw(this);
+		myBulletManager->draw(this);
 		bulletManager->draw(this);
 		enemyManager->draw(this);
 		break;
 	case State::GAMEOVER:
 		bulletManager->draw(this);
+		myBulletManager->draw(this);
 		enemyManager->draw(this);
 		FontAsset(L"title").draw(L"GameOver", Vec2(200, 300), Palette::Lightgreen);
 		break;
@@ -95,14 +93,26 @@ void Game::drawBack(){
 	//TextureAsset(L"back").draw(0, frameCount / 2.0, Alpha(180));
 	//TextureAsset(L"back").flip().draw(0, frameCount / 2.0 - 2048, Alpha(180));
 	FontAsset(L"log").draw(Format(System::FrameCount()), Vec2(0, 0), Palette::Lightgreen);
-	FontAsset(L"log").draw(Format(player->getHp()), Vec2(0, 20), Palette::Lightgreen);
+	//FontAsset(L"log").draw(Format(player->getHp()), Vec2(0, 20), Palette::Lightgreen);
 	//TextureAsset(L"back").mirror().flip().draw(0, frameCount, Alpha(100));
 	//TextureAsset(L"back").mirror().draw(0, frameCount - 2048, Alpha(100));
 }
 
 void Game::gameStart(){
 	state = State::PLAY;
-	player->init();
-	bulletManager->clear();
+	//init();
+	//main‚Ì©‹@
+	playerManager->addMain(std::make_shared<Player>(Vec2(300, 700), 1, 1));
+	playerManager->add(std::make_shared<Player>(Vec2(200, 700), 1, 1));
+	playerManager->add(std::make_shared<Player>(Vec2(100, 700), 1, 1));
+	playerManager->add(std::make_shared<Player>(Vec2(400, 700), 1, 1));
+	playerManager->add(std::make_shared<Player>(Vec2(500, 700), 1, 1));
+}
+
+void Game::init(){
+	playerManager->clear();
 	enemyManager->clear();
+	bulletManager->clear();
+	myBulletManager->clear();
+	playerManager->addMain(std::make_shared<Player>(Vec2(0,0), 1, 1));
 }
