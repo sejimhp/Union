@@ -14,5 +14,5 @@ public:
 
 	void bulletUpdate(Game* game);
 private:
-	int damageCount;
+	int damageCount, fireCount;
 };

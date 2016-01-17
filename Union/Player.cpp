@@ -5,7 +5,7 @@
 #include "Bullet.h"
 
 namespace{
-	static const int HP_MAX = 100;
+	static const int HP_MAX = 200;
 }
 
 Player::Player(Vec2 pos, int ffig) : Super(pos, ffig){}

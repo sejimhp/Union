@@ -23,14 +23,9 @@ void Charactor::drawChar(){
 Charactor::Charactor(Vec2 pos, Figure fig) :
 pos(pos), rad(0), fig(fig){
 	switch (fig){
-	case Figure::TRIANGLE:
-		hp = 100;
-		size = 25.0;
-		color = Color(150, 150, 255, 122);
-		break;
 	case Figure::SQUARE:
 		hp = 30;
-		size = 15.0;
+		size = 30.0;
 		color = Color(Palette::Yellow, 222);
 		break;
 	case Figure::TSQUARE:
@@ -67,13 +62,13 @@ frameCount(0), catchCount(0)
 	//Šeƒ‚ƒfƒ‹
 	switch (fig){
 	case Figure::TRIANGLE:
-		hp = 100;
+		hp = 200;
 		size = 25.0;
 		color = Color(150, 150, 255, 122);
 		break;
 	case Figure::SQUARE:
 		hp = 10;
-		size = 15.0;
+		size = 30.0;
 		color = Color(Palette::Yellow, 222);
 		break;
 	case Figure::TSQUARE:

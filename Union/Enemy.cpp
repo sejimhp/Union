@@ -4,7 +4,7 @@
 #include "Bullet.h"
 #include "Player.h"
 
-Enemy::Enemy(Vec2 pos, int ffig) : Super(pos, ffig){}
+Enemy::Enemy(Vec2 pos, int ffig) : Super(pos, ffig), fireCount(0){}
 
 void Enemy::update(Game* game){
 	frameCount++;
@@ -25,11 +25,12 @@ void Enemy::update(Game* game){
 		}
 	}
 
+	//Catcher
 	auto player = game->getPlayerManager()->getMainPlayer();
 	if (player->IsStateCATCHER() &&
-		Circle(pos, size).intersects(Circle(player->getPos(), 120)))catchCount++;
+		Circle(player->getPos(), 120).contains(Circle(pos, size)))catchCount++;
 	else if (catchCount != 0) catchCount = 0;
-	
+
 	if (catchCount == 50){
 		auto playerManager = game->getPlayerManager();
 		playerManager->add(std::make_shared<Player>(fig));
@@ -45,10 +46,10 @@ void Enemy::bulletUpdate(Game* game){
 	rad += Radians(2.0);
 	switch (fig){
 	case Figure::CIRCLE:
-		if (System::FrameCount() % 4 == 0 && frameCount > 60){
-			for (auto i : step_to(-1, 1, 1)){
-				double shotRad = rad + TwoPi / 3 * i;
-				auto bullet = std::make_shared<Bullet>(pos, Color(255, 100, 100), shotRad, 5.0, 0.0);
+		if (System::FrameCount() % 100 == 0){
+			double shotRad = rad2;
+			for (auto i : step(100)){
+				auto bullet = std::make_shared<Bullet>(pos, Palette::White, shotRad);
 				bulletManager->add(bullet);
 			}
 		}

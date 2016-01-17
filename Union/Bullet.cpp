@@ -12,21 +12,47 @@ size(5.0),
 type(BulletKind::CIRCLE)
 {}
 
+
+Bullet::Bullet(Vec2 pos, Color color, double rad):
+pos(pos),
+color(color),
+rad(rad),
+speed(10.0),
+accel(0),
+size(5.0),
+type(BulletKind::HANABI),
+frameCount(0)
+{}
+
 void Bullet::update(Game* game){
 	if (pos.x > Game::stageSize.x || pos.x < 0 || pos.y > Game::stageSize.y || pos.y < 0){
 		kill();
 	}
-
-	speed += accel;
-	speed = Clamp(speed, 2.0, 15.0);
-	Vec2 vec = Vec2(Cos(rad), Sin(rad)) * speed;
-	pos += vec;
+		Vec2 vec = Vec2(Cos(rad), Sin(rad)) * speed;
+	switch (type){
+	case BulletKind::HANABI:
+		frameCount++;
+		pos += vec;
+		if (frameCount == 50){
+			color = Palette::Lightgreen;
+			type = BulletKind::CIRCLE;
+			rad = TwoPi / 100 * Random(1,100);
+			speed = Random(1.0, 15.0);
+		}
+		break;
+	case BulletKind::CIRCLE:
+		speed += accel;
+		speed = Clamp(speed, 2.0, 15.0);
+		pos += vec;
+		break;
+	};
 }
 
 void Bullet::draw(Game* game){
 	switch(type){
 	case BulletKind::CIRCLE:
-		Circle(pos, size).draw(color.setAlpha(200));
+	case BulletKind::HANABI:
+		Circle(pos, size).draw(color);
 		break;
 	case BulletKind::TRIANGLE:
 		Triangle({ -5, 5 }, { 0, -15 }, { 5, 5 }).setCentroid(pos).draw(Color(255, 165, 30));

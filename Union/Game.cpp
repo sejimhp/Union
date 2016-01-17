@@ -103,7 +103,7 @@ void Game::gameStart(){
 	state = State::PLAY;
 	init();
 	//main‚Ì©‹@
-	playerManager->add(std::make_shared<Player>(2));
+	//playerManager->add(std::make_shared<Player>(2));
 	//playerManager->add(std::make_shared<Player>(1, 3));
 	//playerManager->add(std::make_shared<Player>(1, 4));
 	//playerManager->add(std::make_shared<Player>(1, 1));
