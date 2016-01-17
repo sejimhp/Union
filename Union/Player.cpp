@@ -2,6 +2,7 @@
 
 #include "Game.h"
 #include "Charactor.h"
+#include "Enemy.h"
 #include "Bullet.h"
 
 namespace{
@@ -67,7 +68,7 @@ void Player::update(Game* game){
 		state = State::NORMAL;
 	}
 
-	checkBulletHit(game);
+	checktHit(game);
 }
 
 void Player::draw(Game* game){
@@ -80,7 +81,8 @@ void Player::draw(Game* game){
 	Circle(pos, 25.0).drawArc(0.0, TwoPi * (static_cast<double>(hp) / HP_MAX), 0.0, 2.0, Color(255, 150, 150, 122));
 }
 
-void Player::checkBulletHit(Game* game){
+void Player::checktHit(Game* game){
+	//Bullet
 	auto bulletManager = game->getBulletManager();
 	for (auto& bullet : *bulletManager){
 		if (fig == Figure::SQUARE &&
@@ -94,6 +96,28 @@ void Player::checkBulletHit(Game* game){
 	}
 	if (hp <= 0){
 		state = State::GAMEOVER;
+	}
+
+	//Enemy
+	if (fig == Figure::SQUARE){
+		auto enemyManager = game->getEnemyManager();
+		for (auto& enemy : *enemyManager){
+			switch (enemy->getFigre()){
+			case Figure::CIRCLE:
+			case Figure::TSQUARE:
+				if (Circle(pos, size).intersects(Circle(enemy->getPos(), enemy->getSize()))){
+					hp -= 50;
+					enemy->kill();
+				}
+				break;
+			case Figure::SQUARE:
+				if (RectF(size * 2).setCenter(pos).intersects(Circle(enemy->getPos(), enemy->getSize()))){
+					hp -= 50;
+					enemy->kill();
+				}
+				break;
+			};
+		}
 	}
 }
 

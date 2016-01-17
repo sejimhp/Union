@@ -23,7 +23,7 @@ public:
 
 	void setMember(int num);
 	void setPos(Vec2 pos) { this->pos = pos; }
-	void checkBulletHit(Game* game);
+	void checktHit(Game* game);
 	bool IsStateCATCHER() const{ return state == State::CATCHER; }
 	bool IsSquare() const{ return fig == Figure::SQUARE; }
 private:
