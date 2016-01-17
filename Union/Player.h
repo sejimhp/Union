@@ -25,6 +25,7 @@ public:
 	void setPos(Vec2 pos) { this->pos = pos; }
 	void checkBulletHit(Game* game);
 	bool IsStateCATCHER() const{ return state == State::CATCHER; }
+	bool IsSquare() const{ return fig == Figure::SQUARE; }
 private:
 	State state;
 };
@@ -67,6 +68,9 @@ public:
 	void add(std::shared_ptr<Player> actor);
 	void addMain(std::shared_ptr<Player> actor){ actors[2] = actor; }
 	std::shared_ptr<Player> getMainPlayer() const{ return actors[2]; }
+
+	bool IsSquare();
+	Vec2 getSquarePos();
 private:
 	std::vector<std::shared_ptr<Player>> actors;
 };

@@ -25,13 +25,38 @@ void Player::update(Game* game){
 
 	//fire
 	auto bulletManager = game->getMyBulletManager();
-	for (int i : {-1, 1, 0}) {
-		const double shotRad = Radians(5 * i);
-		if (System::FrameCount() % 10 == 0) {
-			auto shot = std::make_shared<Bullet>(pos, Palette::Aqua, shotRad - HalfPi, 1, 1);
-			bulletManager->add(shot);
+	switch (fig){
+	case Figure::TRIANGLE:
+		for (int i : {-1, 1, 0}) {
+			const double shotRad = Radians(5 * i);
+			if (System::FrameCount() % 10 == 0) {
+				auto shot = std::make_shared<Bullet>(pos, Palette::Aqua, shotRad - HalfPi, 1, 1);
+				bulletManager->add(shot);
+			}
 		}
-	}
+		break;
+	case Figure::SQUARE:
+		break;
+	case Figure::TSQUARE:
+		rad += 2;
+		if (System::FrameCount() % 10 == 0){
+			for (auto i : step_to(-4, 4, 1)){
+				double shotRad = rad + TwoPi / 8 * i;
+				auto bullet = std::make_shared<Bullet>(pos, Palette::Aqua, shotRad, 5.0, 0.0);
+				bulletManager->add(bullet);
+			}
+		}
+		break;
+	case Figure::CIRCLE:
+		if (System::FrameCount() % 70 == 0){
+			for (int i : step(50)){
+				rad = TwoPi / 100 * Random(1, 100);
+				auto bullet = std::make_shared<Bullet>(pos, Palette::Aqua, rad, Random(1.0, 15.0), 0.0);
+				bulletManager->add(bullet);
+			}
+		}
+		break;
+	};
 
 	//catcher
 	if (Input::KeyZ.clicked && fig == Figure::TRIANGLE){
@@ -51,14 +76,17 @@ void Player::draw(Game* game){
 		Circle(pos, 120).drawArc(0.0, TwoPi * (static_cast<double>(System::FrameCount() - frameCount) / 100), 0.0, 2.0, Color(255, 150, 150, 122));
 	}
 	drawChar();
-	Circle(pos, 2).draw(Color(150, 0, 0, 122));
+	if (fig != Figure::SQUARE){ Circle(pos, 2).draw(Color(150, 0, 0, 122)); }
 	Circle(pos, 25.0).drawArc(0.0, TwoPi * (static_cast<double>(hp) / HP_MAX), 0.0, 2.0, Color(255, 150, 150, 122));
-	
 }
 
 void Player::checkBulletHit(Game* game){
 	auto bulletManager = game->getBulletManager();
 	for (auto& bullet : *bulletManager){
+		if (fig == Figure::SQUARE &&
+			RectF(size * 2).setCenter(pos).intersects(Circle(bullet->getPos(), bullet->getSize()))){
+			bullet->kill();
+		}
 		if (Circle(pos, 2).intersects(Circle(bullet->getPos(), bullet->getSize()))){
 			hp--;
 			bullet->kill();
@@ -78,4 +106,22 @@ void MemberManager::add(std::shared_ptr<Player> actor){
 	else if (actors[3] == nullptr){ actors[3] = actor; }
 	else if (actors[0] == nullptr){ actors[0] = actor; }
 	else if (actors[4] == nullptr){ actors[4] = actor; }
+}
+
+bool MemberManager::IsSquare(){
+	for (int i : step(5)){
+		if (actors[i] != nullptr && actors[i]->IsSquare()){
+			return true;
+		}
+	}
+	return false;
+}
+
+Vec2 MemberManager::getSquarePos(){
+	for (auto& actor : actors){
+		if (actor != nullptr && actor->IsSquare()){
+			return actor->getPos();
+		}
+	}
+	return Vec2(0, 0);
 }

@@ -1,6 +1,7 @@
 #include "Bullet.h"
 
 #include "Game.h"
+#include "Player.h"
 
 Bullet::Bullet(Vec2 pos, Color color, double rad, double speed, double accel):
 pos(pos),
@@ -46,6 +47,13 @@ void Bullet::update(Game* game){
 		pos += vec;
 		break;
 	};
+
+	//Square‚Í“G‚Ì’e‚ð‹zŽû
+	/*auto playerManager = game->getPlayerManager();
+	if (playerManager->IsSquare() && color != Palette::Aqua){
+		Vec2 Pos = game->getPlayerManager()->getSquarePos();
+		rad = Atan2(Pos.y - pos.y, Pos.x - pos.x);
+	}*/
 }
 
 void Bullet::draw(Game* game){
